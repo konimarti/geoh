@@ -1,7 +1,7 @@
 # geoh
 Idiomatic C Geohash library and tools
 
-# Installation
+## Installation
 
 ``
 git clone http://github.com/konimarti/geoh
@@ -12,14 +12,34 @@ make
 ``
 
 ``
-make test
-``
-
-``
 sudo make install
 ``
 
-# Geohash tools
+## Unit Testing
+
+``
+$ make test
+
+Starting Geohash unit-tests.
+[GEOH Tests]
+[==========] Running 5 test(s).
+[ RUN      ] TEST__init_position
+[       OK ] TEST__init_position
+[ RUN      ] TEST__init_hash_empty
+[       OK ] TEST__init_hash_empty
+[ RUN      ] TEST__init_hash_encoded
+[       OK ] TEST__init_hash_encoded
+[ RUN      ] TEST__encode
+[       OK ] TEST__encode
+[ RUN      ] TEST__decode
+[       OK ] TEST__decode
+[==========] 5 test(s) run.
+[  PASSED  ] 5 test(s).
+
+``
+
+
+## Geohash tools
 
 * ``encode [precision]`` reads in latitude and longitue and calculates geohash for the given precision:
 	```
