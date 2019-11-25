@@ -21,12 +21,12 @@ To calculate a geohash from coordinates, you first initiate a ```nstruct geoh_po
 Once initialized, call the ```geoh_encode()``` function.
 ```c
 	geoh_encode(&hash, &coords);
-	printf("Geohash: %s\n", hash->hash);
+	printf("Geohash: %s\n", hash.hash);
 ```
 
 After you are done, don't forget to release the hash resources.
 ```c
-	geoh_free(&hash);
+	geoh_free_hash(&hash);
 ```
 
 ## Geohash tools usage
