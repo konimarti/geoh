@@ -4,20 +4,34 @@ Idiomatic C Geohash library and tools
 ## Installation
 
 ``
-git clone http://github.com/konimarti/geoh
+$ git clone http://github.com/konimarti/geoh
+$ make 
+$ sudo make install
 ``
 
-``
-make 
-``
+## Getting started
 
-``
-sudo make install
-``
+To calculate a geohash from coordinates, you first initiate a ```nstruct geoh_position``` and ```nstruct geoh_hash``` and initialize the hash with the required precision using ```geoh_init_hash()``` function.
+```c
+	struct geoh_position coords = {.lat = 41.1234, .lng = 9.5678};
+	struct geoh_hash hash;
+	geoh_init_hash(&hash, 6);
+```
 
-## Geohash tools
+Once initialized, call the ```geoh_encode()``` function.
+```c
+	geoh_encode(&hash, &coords);
+	printf("Geohash: %s\n", hash->hash);
+```
 
-* ``encode [precision]`` reads in latitude and longitue and calculates geohash for the given precision:
+After you are done, don't forget to release the hash resources.
+```c
+	geoh_free(&hash);
+```
+
+## Geohash tools usage
+
+* ``encode [precision]`` reads in latitude and longitude and calculates the geohash for the given precision:
 	```
 	$ echo "41.1234 9.5678" | bin/encode 6 
 	$ spqccw
@@ -25,13 +39,15 @@ sudo make install
 	$ spqccwr11vku
 	```
 
-* ``decode`` reads a geohash and prints the corresponding latitude and longitue:
+* ``decode`` reads a geohash and prints the corresponding latitude and longitude:
 	```
 	echo "spqccwr11vku" | bin/decode 
 	41.123400 9.567800
 	```
 
 ## Unit Testing
+
+The unit tests use the [cmocka](http://cmocka.org) unit testing framework. To run the test, [cmocka](http://cmocka.org) needs to be installed on your machine to build and run the unit tests.
 
 ```
 $ make test

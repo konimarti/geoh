@@ -30,14 +30,13 @@ enum geoh_return_code geoh_init_position(struct geoh_position *coords,
 }
 
 /* initialize struct geoh_hash with the given precision */
-enum geoh_return_code geoh_init_empty_hash(struct geoh_hash *hash,
-					   unsigned short precision) {
+enum geoh_return_code geoh_init_hash(struct geoh_hash *hash,
+				     unsigned short precision) {
 	if (hash == NULL) return GEOH_RETURN_ERR;
 
 	hash->hash = (char *)malloc(sizeof(char) * (precision + 1));
 	hash->hash[precision] = '\0';
 	hash->precision = precision;
-	hash->status = GEOH_STATUS_INIT;
 	return GEOH_RETURN_OK;
 }
 
@@ -46,18 +45,18 @@ enum geoh_return_code geoh_free_hash(struct geoh_hash *hash) {
 	if (hash == NULL) return GEOH_RETURN_ERR;
 
 	if (hash->hash != NULL) free(hash->hash);
-	hash->status = GEOH_STATUS_INIT;
 	return GEOH_RETURN_OK;
 }
 
 /* initialize struct geoh_hash encoded hash*/
-enum geoh_return_code geoh_init_encoded_hash(struct geoh_hash *hash,
-					     const char *geohash) {
-	if (hash == NULL || geohash == NULL) return GEOH_RETURN_ERR;
+enum geoh_return_code geoh_set_hash(struct geoh_hash *hash,
+				    const char *geohash) {
+	if (hash == NULL || geohash == NULL ||
+	    hash->precision != (unsigned short)strlen(geohash))
+		return GEOH_RETURN_ERR;
 
-	hash->hash = (char *)geohash;
-	hash->precision = (unsigned short)strlen(geohash);
-	hash->status = GEOH_STATUS_ENCODED;
+	memset(hash->hash, '\0', (hash->precision + 1));
+	strcpy(hash->hash, geohash);
 	return GEOH_RETURN_OK;
 }
 
@@ -110,9 +109,6 @@ enum geoh_return_code geoh_encode(struct geoh_hash *hash,
 		}
 	}
 
-	/* update hash status */
-	hash->status = GEOH_STATUS_ENCODED;
-
 	return GEOH_RETURN_OK;
 }
 
@@ -128,9 +124,6 @@ int char_set_idx(char c, const char *char_set) {
 enum geoh_return_code geoh_decode(struct geoh_position *coords,
 				  struct geoh_hash *hash) {
 	if (hash == NULL || coords == NULL) return GEOH_RETURN_ERR;
-
-	if (hash->status != GEOH_STATUS_ENCODED)
-		return GEOH_RETURN_HASH_NOT_ENCODED;
 
 	struct __range range_lat = {MIN_LAT, MAX_LAT};
 	struct __range range_lng = {MIN_LNG, MAX_LNG};

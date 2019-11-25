@@ -16,7 +16,7 @@ LIBDIR = lib
 
 OBJS = $(GEOH_C_SOURCES:.c=.o)
 
-all: $(BINDIR) $(LIBDIR) $(GEOH_C_UNITTESTS) $(GEOH_TARGET_LIB) $(GEOH_C_BINS) 
+all: $(BINDIR) $(LIBDIR) $(GEOH_TARGET_LIB) $(GEOH_C_BINS) 
 
 bin/encode: src/encode.c $(GEO_TARGET_LIB)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) 
@@ -36,7 +36,7 @@ $(BINDIR):
 $(LIBDIR):
 	mkdir -p $(LIBDIR)
 
-test: all
+test: all $(GEOH_C_UNITTESTS) 
 	$(GEOH_C_UNITTESTS)
 
 install: $(GEOH_TARGET_LIB)

@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 	struct geoh_hash hash;
 
 	/* init geoh_hash */
-	if (geoh_init_empty_hash(&hash, precision) != GEOH_RETURN_OK) {
+	if (geoh_init_hash(&hash, precision) != GEOH_RETURN_OK) {
 		printf("failed to init hash");
 		exit(EXIT_FAILURE);
 	}
