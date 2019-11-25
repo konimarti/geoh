@@ -8,6 +8,12 @@
 void usage(char* prog) { printf("Usage: %s [precision]\n", prog); }
 
 int main(int argc, char* argv[]) {
+	double lat, lng;
+
+	char* buf = NULL;
+	size_t len = 0;
+	ssize_t nread;
+
 	if (argc != 2) {
 		usage(argv[0]);
 		exit(EXIT_FAILURE);
@@ -22,24 +28,20 @@ int main(int argc, char* argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
+	/* create data structure */
 	struct geoh_position coord;
 	struct geoh_hash hash;
 
-	double lat, lng;
-
-	char* buf = NULL;
-	size_t len = 0;
-	ssize_t nread;
+	/* init geoh_hash */
+	if (geoh_init_empty_hash(&hash, precision) != GEOH_RETURN_OK) {
+		printf("failed to init hash");
+		exit(EXIT_FAILURE);
+	}
 
 	/* loop over input lines expecting two floats: [latitute] [longitude] */
 	while ((nread = getline(&buf, &len, stdin)) > 0) {
 		if (len > 0 &&
 		    sscanf(buf, "%lf %lf", &coord.lat, &coord.lng) == 2) {
-			if (geoh_init_empty_hash(&hash, precision) !=
-			    GEOH_RETURN_OK) {
-				printf("failed to init hash");
-				continue;
-			}
 			if (geoh_encode(&hash, &coord) == GEOH_RETURN_OK) {
 				printf("%s\n", hash.hash);
 			}
@@ -48,6 +50,12 @@ int main(int argc, char* argv[]) {
 		buf = NULL;
 	}
 	if (buf != NULL) free(buf);
+
+	/* init geoh_hash */
+	if (geoh_free_hash(&hash) != GEOH_RETURN_OK) {
+		printf("failed to free hash");
+		exit(EXIT_FAILURE);
+	}
 
 	exit(EXIT_SUCCESS);
 }

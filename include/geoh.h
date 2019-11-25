@@ -44,6 +44,7 @@ enum geoh_return_code geoh_init_empty_hash(struct geoh_hash *hash,
 					   unsigned short precision);
 enum geoh_return_code geoh_init_encoded_hash(struct geoh_hash *hash,
 					     const char *geohash);
+enum geoh_return_code geoh_free_hash(struct geoh_hash *hash);
 enum geoh_return_code geoh_encode(struct geoh_hash *hash,
 				  struct geoh_position *coords);
 enum geoh_return_code geoh_decode(struct geoh_position *coords,

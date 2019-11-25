@@ -41,6 +41,15 @@ enum geoh_return_code geoh_init_empty_hash(struct geoh_hash *hash,
 	return GEOH_RETURN_OK;
 }
 
+/* free struct geoh_hash */
+enum geoh_return_code geoh_free_hash(struct geoh_hash *hash) {
+	if (hash == NULL) return GEOH_RETURN_ERR;
+
+	if (hash->hash != NULL) free(hash->hash);
+	hash->status = GEOH_STATUS_INIT;
+	return GEOH_RETURN_OK;
+}
+
 /* initialize struct geoh_hash encoded hash*/
 enum geoh_return_code geoh_init_encoded_hash(struct geoh_hash *hash,
 					     const char *geohash) {

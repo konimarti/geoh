@@ -8,19 +8,20 @@
 void usage(char* prog) { printf("Usage: %s\n", prog); }
 
 int main(int argc, char* argv[]) {
+	char* buf;
+	size_t len = 0;
+	ssize_t nread;
+
+	char geohash[12];
+
 	if (argc != 1) {
 		usage(argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
+	/* create data structure */
 	struct geoh_position coord;
 	struct geoh_hash hash;
-
-	char geohash[12];
-
-	char* buf;
-	size_t len = 0;
-	ssize_t nread;
 
 	/* loop over input lines expecting a geohash string: [geohash] */
 	while ((nread = getline(&buf, &len, stdin)) > 0) {
