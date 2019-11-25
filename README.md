@@ -3,30 +3,30 @@ Idiomatic C Geohash library and tools
 
 ## Installation
 
-``
+```
 $ git clone http://github.com/konimarti/geoh
 $ make 
 $ sudo make install
-``
+```
 
 ## Getting started
 
-To calculate a geohash from coordinates, you first initiate a ```nstruct geoh_position``` and ```nstruct geoh_hash``` and initialize the hash with the required precision using ```geoh_init_hash()``` function.
+To calculate a geohash from coordinates, you first initiate a ```struct geoh_position``` and ```struct geoh_hash``` and initialize the hash with the required precision using ```geoh_init_hash()``` function.
 ```c
-	struct geoh_position coords = {.lat = 41.1234, .lng = 9.5678};
-	struct geoh_hash hash;
-	geoh_init_hash(&hash, 6);
+struct geoh_position coords = {.lat = 41.1234, .lng = 9.5678};
+struct geoh_hash hash;
+geoh_init_hash(&hash, 6);
 ```
 
 Once initialized, call the ```geoh_encode()``` function.
 ```c
-	geoh_encode(&hash, &coords);
-	printf("Geohash: %s\n", hash.hash);
+geoh_encode(&hash, &coords);
+printf("Geohash: %s\n", hash.hash);
 ```
 
 After you are done, don't forget to release the hash resources.
 ```c
-	geoh_free_hash(&hash);
+geoh_free_hash(&hash);
 ```
 
 ## Geohash tools usage
