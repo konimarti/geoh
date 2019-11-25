@@ -19,10 +19,10 @@ OBJS = $(GEOH_C_SOURCES:.c=.o)
 all: $(BINDIR) $(LIBDIR) $(GEOH_C_UNITTESTS) $(GEOH_TARGET_LIB) $(GEOH_C_BINS) 
 
 bin/encode: src/encode.c $(GEO_TARGET_LIB)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ 
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) 
 
 bin/decode: src/decode.c $(GEOH_TARGET_LIB)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(GEOH_TARGET_LIB): $(GEOH_C_SOURCES) 
 	$(CC) $(CFLAGS) $(LIBFLAGS) $^ -o $@
