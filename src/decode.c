@@ -20,24 +20,17 @@ int main(int argc, char* argv[]) {
 	}
 
 	/* create data structure */
-	struct geoh_position coord;
+	double lat, lng;
 	struct geoh_hash hash;
 
 	/* loop over input lines expecting a geohash string: [geohash] */
 	while ((nread = getline(&buf, &len, stdin)) > 0) {
 		if (len > 0 && sscanf(buf, "%s", geohash) == 1) {
-			if (geoh_init_hash(&hash, strlen(geohash)) !=
-			    GEOH_RETURN_OK) {
-				printf("failed to init hash");
-			}
 			if (geoh_set_hash(&hash, geohash) != GEOH_RETURN_OK) {
 				printf("failed to set hash");
 			}
-			if (geoh_decode(&coord, &hash) == GEOH_RETURN_OK) {
-				printf("%f %f\n", coord.lat, coord.lng);
-			}
-			if (geoh_free_hash(&hash) != GEOH_RETURN_OK) {
-				printf("failed to free hash");
+			if (geoh_decode(&hash, &lat, &lng) == GEOH_RETURN_OK) {
+				printf("%f %f\n", lat, lng);
 			}
 		}
 		free(buf);

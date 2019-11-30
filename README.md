@@ -11,22 +11,19 @@ $ sudo make install
 
 ## Getting started
 
-To calculate a geohash from coordinates, you first initiate a ```struct geoh_position``` and ```struct geoh_hash``` and initialize the hash with the required precision using ```geoh_init_hash()``` function.
+To calculate a geohash from coordinates, you first initiate a ```struct geoh_hash``` with the desired precision using ```geoh_init_hash()``` function.
 ```c
-struct geoh_position coords = {.lat = 41.1234, .lng = 9.5678};
 struct geoh_hash hash;
 geoh_init_hash(&hash, 6);
 ```
 
-Once initialized, call the ```geoh_encode()``` function.
+Once initialized, call the ```geoh_encode()``` function with the latitude and longitude variables to be encoded:
 ```c
-geoh_encode(&hash, &coords);
+double lat, lng;
+lat = 41.1234;
+lng = 9.5678;
+geoh_encode(&hash, lat, lng);
 printf("Geohash: %s\n", hash.hash);
-```
-
-After you are done, don't forget to release the hash resources.
-```c
-geoh_free_hash(&hash);
 ```
 
 ## Geohash tools usage
@@ -54,18 +51,16 @@ $ make test
 
 Starting Geohash unit-tests.
 [GEOH Tests]
-[==========] Running 5 test(s).
-[ RUN      ] TEST__init_position
-[       OK ] TEST__init_position
-[ RUN      ] TEST__init_hash_empty
-[       OK ] TEST__init_hash_empty
-[ RUN      ] TEST__init_hash_encoded
-[       OK ] TEST__init_hash_encoded
+[==========] Running 4 test(s).
+[ RUN      ] TEST__init_hash
+[       OK ] TEST__init_hash
+[ RUN      ] TEST__set_hash
+[       OK ] TEST__set_hash
 [ RUN      ] TEST__encode
 [       OK ] TEST__encode
 [ RUN      ] TEST__decode
 [       OK ] TEST__decode
-[==========] 5 test(s) run.
-[  PASSED  ] 5 test(s).
+[==========] 4 test(s) run.
+[  PASSED  ] 4 test(s).
 
 ```

@@ -15,13 +15,8 @@ enum geoh_return_code {
 };
 
 /* struct declarations */
-struct geoh_position {
-	double lat;
-	double lng;
-};
-
 struct geoh_hash {
-	char *hash;
+	char hash[12 + 1];
 	unsigned short precision;
 };
 
@@ -29,14 +24,8 @@ struct geoh_hash {
 extern const char character_set[32];
 
 /* function prototypes */
-enum geoh_return_code geoh_init_position(struct geoh_position *coords,
-					 double lat, double lng);
-enum geoh_return_code geoh_init_hash(struct geoh_hash *hash,
-					   unsigned short precision);
-enum geoh_return_code geoh_set_hash(struct geoh_hash *hash,
-					     const char *geohash);
-enum geoh_return_code geoh_free_hash(struct geoh_hash *hash);
-enum geoh_return_code geoh_encode(struct geoh_hash *hash,
-				  struct geoh_position *coords);
-enum geoh_return_code geoh_decode(struct geoh_position *coords,
-				  struct geoh_hash *hash);
+int geoh_init_hash(struct geoh_hash *hash, unsigned short precision);
+int geoh_set_hash(struct geoh_hash *hash, const char *geohash);
+
+int geoh_encode(struct geoh_hash *hash, double lat, double lng);
+int geoh_decode(struct geoh_hash *hash, double *lat, double *lng);
